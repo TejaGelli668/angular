@@ -1,0 +1,212 @@
+<!-- Raise Access Request Button -->
+<button class="raise-request-btn" (click)="openRequestForm()">Raise Access Request</button>
+ 
+<!-- Access Request Form (Initially Hidden) -->
+<div class="modal" *ngIf="showRequestForm">
+  <div class="modal-content">
+    <h2>Raise Access Request</h2>
+    <table>
+      <tr>
+        <td><label>Shop <span style="color: red;">*</span></label></td>
+        <td><input type="text" value="JPORT" readonly /></td>
+      </tr>
+      <tr>
+        <td><label>SSO:</label></td>
+        <td><input type="text" [(ngModel)]="newRequest.sso" /></td>
+      </tr>
+      <tr>
+        <td><label>Name:</label></td>
+        <td><input type="text" [(ngModel)]="newRequest.name" /></td>
+      </tr>
+      <tr>
+        <td><label>Email":</label></td>
+        <td><input type="text" [(ngModel)]="newRequest.email" /></td>
+      </tr>
+      <tr>
+        <td><label>Access Type:</label></td>
+        <td>
+          <select [(ngModel)]="newRequest.accessType">
+            <option *ngFor="let type of accessTypes" [value]="type">{{ type }}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <tr>
+          <td><label>Roles:</label></td>
+          <td>
+            <div class="custom-dropdown" (click)="toggleDropdown()">
+              <div class="selected-roles">
+                <span *ngIf="newRequest.roles.length === 0" class="placeholder">Select Roles</span>
+                <span *ngFor="let role of newRequest.roles" class="role-chip">
+                  {{ role }}
+                </span>
+              </div>
+              <div class="arrow">&#9662;</div> <!-- Dropdown arrow -->
+            </div>
+         
+            <div class="dropdown-list" *ngIf="dropdownOpen">
+              <label *ngFor="let role of availableRoles" class="dropdown-item">
+                <input type="checkbox" [checked]="newRequest.roles.includes(role)" (change)="toggleRole(role)" />
+                {{ role }}
+              </label>
+            </div>
+          </td>
+        </tr>
+         
+        </table>
+         
+        <button (click)="submitRequest()">Submit</button>
+        <button (click)="closeRequestForm()">Cancel</button>
+       
+  </div>
+</div>
+ 
+<!-- Border -->
+<hr class="divider" />
+ 
+<!-- Radio Buttons for Pending, Approved, Rejected -->
+<div class="status-buttons">
+  <input type="radio" name="status" value="pending" (click)="setView('pending')" checked /> Pending
+  <input type="radio" name="status" value="approved" (click)="setView('approved')" /> Approved
+  <input type="radio" name="status" value="rejected" (click)="setView('rejected')" /> Rejected
+</div>
+ 
+<!-- Pending Table (Default View) -->
+<div *ngIf="currentView === 'pending'">
+  <h3>Pending Requests</h3>
+  <table>
+    <tr>
+      <th>SSO</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Comments</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let request of requests.pending">
+      <td>{{ request.sso }}</td>
+      <td>{{ request.name }}</td>
+      <td>{{ request.email }}</td>
+      <td>
+        <label *ngFor="let role of request.roles">
+          <input type="checkbox" [checked]="false" (change)="toggleRoleSelection(request, role)" />
+          <span [class.highlight]="request.highlightedRoles.includes(role)" (click)="toggleHighlight(request, role)">
+            {{ role }}
+          </span>
+        </label>
+      </td>
+      <td><input type="text" [(ngModel)]="request.comments" /></td>
+      <td>
+        <button (click)="approveRequest(request)">✅</button>
+        <button (click)="rejectRequest(request)">❌</button>
+      </td>
+    </tr>
+  </table>
+</div>
+ 
+ 
+<!-- Approved Table -->
+<div *ngIf="currentView === 'approved'">
+  <h3>Approved Requests</h3>
+  <table>
+    <tr>
+      <th>SSO</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Access Type</th>
+      <th>Comments</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let request of requests.approved">
+      <td>{{ request.sso }}</td>
+      <td>{{ request.name }}</td>
+      <td>{{ request.email }}</td>
+     
+      <td>
+        <label *ngFor="let role of request.roles">
+          <input type="checkbox" [(ngModel)]="role.selected" />
+         
+          <span  >{{ role.name }}</span>
+         
+         
+        </label>
+      </td>
+      <td>
+        {{ request.accessType }}
+        <button (click)="openChangeAccessModal(request)">✏️</button>
+      </td>
+      <td><input type="text" [(ngModel)]="request.comments" /></td>
+      <td><button (click)="openDeleteConfirmationModal(request)">❌</button></td>
+    </tr>
+  </table>
+</div>
+ 
+<!-- Change Access Type Modal -->
+<div class="modal" *ngIf="showChangeAccessModal">
+  <div class="modal-content">
+    <h2>Change Access Type</h2>
+    <select [(ngModel)]="newAccessType">
+      <option *ngFor="let type of accessTypes" [value]="type">{{ type }}</option>
+    </select>
+    <button (click)="changeAccessType()">Submit</button>
+    <button (click)="closeChangeAccessModal()">Cancel</button>
+  </div>
+</div>
+ <!-- Confirmation Modal for Deleting Roles -->
+<div class="modal" *ngIf="showDeleteConfirmationModal">
+  <div class="modal-content">
+    <h2>Are you sure you want to delete the following roles for {{ selectedRequestForDeletion?.name }}?</h2>
+    <div>
+      <h3>Roles to delete:</h3>
+      <ul>
+        <li *ngFor="let role of selectedRolesForDeletion">{{ role }}</li>
+      </ul>
+    </div>
+    <button (click)="deleteApprovedSelectedRoles()">Yes, Delete</button>
+    <button (click)="cancelDeleteAction()">Cancel</button>
+  </div>
+</div>
+ 
+ 
+<!-- Rejected Table -->
+<div *ngIf="currentView === 'rejected'">
+  <h3>Rejected Requests</h3>
+  <table>
+    <tr>
+      <th>SSO</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Comments</th>
+    </tr>
+    <tr *ngFor="let request of requests.rejected">
+      <td>{{ request.sso }}</td>
+      <td>{{ request.name }}</td>
+      <td>{{ request.email }}</td>
+      <td>
+        <label *ngFor="let role of request.roles">
+          <input type="checkbox" [(ngModel)]="role.selected" />
+          <span >
+            {{ role.name }}
+          </span>
+        </label>
+      </td>
+      <td><input type="text" [(ngModel)]="request.comments" /></td>
+    </tr>
+  </table>
+</div>
+ <!--Confirmation Modal for Approve/Reject -->
+ <div class="modal" *ngIf="showApprovalRejectionModal">
+  <div class="modal-content">
+    <h2>{{ confirmationAction }} Roles for {{ selectedRequest?.name }}?</h2>
+    <div>
+      <h3>Roles to {{ confirmationAction }}:</h3>
+      <ul>
+        <li *ngFor="let role of selectedRequest?.highlightedRoles">{{ role }}</li>
+      </ul>
+    </div>
+    <button (click)="confirmAction()">Yes,{{ confirmationAction }}</button>
+    <button (click)="cancelAction()">Cancel</button>
+  </div>
+</div>

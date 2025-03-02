@@ -1,0 +1,245 @@
+/* Style for the Raise Access Request button */
+.raise-request-btn {
+  top: 10px;
+  right: 10px;
+  background-color: red; /* Red background */
+  color: white; /* White text for contrast */
+  padding: 8px 10px;
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+ 
+}
+ 
+/* Hover effect for better UI */
+.raise-request-btn:hover {
+  background-color: darkred; /* Darker red on hover */
+}
+ 
+.divider{
+  border-top: 2px solid #ccc;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  width :100%;
+ 
+}
+.access-form {
+  border: 1px solid lightgreen;
+  padding: 10px;
+  width: 300px;
+}
+.red {
+  color: red;
+}
+.radio-group {
+  margin-top: 10px;
+ 
+}
+.roles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+ 
+.roles-container label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+ 
+.role-box {
+  display: inline-block;
+  background-color: lightblue;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+}
+ 
+.highlight {
+  background-color: blue;
+  padding: 5px;
+  border-radius: 5px;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+/* Style for table headers */
+th {
+  background-color: rgb(46, 167, 46); /* Green background for headers */
+  color: white; /* White text for contrast */
+  padding: 10px;
+  text-align: left;
+}
+ 
+/* Light green border for table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid rgb(25, 26, 25); /* Light green border */
+}
+ 
+/* Light green border for table cells */
+th, td {
+  border: 1px solid rgb(25, 26, 25);
+  padding: 8px;
+}
+/* Centered Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: -50px;
+}
+ 
+/* Dropdown Styling */
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+ 
+}
+ 
+/* Buttons Container */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+ 
+/* Button Styling */
+.modal-buttons button {
+  flex: 1;
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+ 
+.modal-buttons button:first-child {
+  background: #007bff;
+  color: white;
+}
+ 
+.modal-buttons button:first-child:hover {
+  background: #0056b3;
+}
+ 
+.modal-buttons button:last-child {
+  background: #ccc;
+}
+ 
+.modal-buttons button:last-child:hover {
+  background: #999;
+}
+.custom-dropdown {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ 
+.selected-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+ 
+.placeholder {
+  color: #aaa;
+}
+ 
+.role-chip {
+  background-color: #007bff;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+ 
+.arrow {
+  font-size: 14px;
+}
+ 
+.dropdown-list {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+ 
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+ 
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 
+.popup-content h3 {
+  margin-bottom: 10px;
+}
+ 
+.popup-content button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+ 
+.popup-content button:hover {
+  background: #0056b3;
+}
